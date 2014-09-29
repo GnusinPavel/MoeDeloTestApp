@@ -1,0 +1,84 @@
+﻿@{
+    ViewBag.Title = "Сотрудники";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styles
+{
+    @Styles.Render("~/Content/jquery.bootgrid.css")
+}
+
+@section title
+{
+    <div class="page-header">
+        <h1>@ViewBag.Title</h1>
+    </div>
+}
+
+<button type="button" class="btn btn-success" id="add-user-btn">Добавить</button>
+<table id="user-table" data-toogle="bootgrid" class="table table-hover">
+    <thead>
+        <tr>
+@*            <th data-column-id="Id"  data-type="Numeric">ID</th>*@
+            <th data-column-id="FirstName" data-identifier="true">Имя</th>
+            <th data-column-id="LastName">Фамилия</th>
+            <th data-column-id="Post" data-formatter="post">Должность</th>
+            <th data-column-id="Commands" data-formatter="commands">Действия</th>
+        </tr>
+    </thead>
+</table>
+
+<!-- Диалог добавления / редактирования сотрудников -->
+<div class="modal fade" id="user-edit-dialog" aria-hidden="true" role="dialog" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="user-title-dialog">Добавить новового сотрудника</h4>
+            </div>
+            <div class="modal-body">
+                <!-- Форма добавления / редактирования сотрудников -->
+                @Html.Partial("Edit")
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Отменить</button>
+                <button type="button" class="btn btn-primary" id="save-user-btn">Применить</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Диалог удаления -->
+<div class="modal fade" id="user-delete-dialog" aria-hidden="true" role="dialog" data-bacdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="user-title-dialog">Удалить сотрудника?</h4>
+            </div>
+            <div class="modal-footer">
+                @using (Html.BeginForm("Remove", "User", FormMethod.Post, new { id = "user-remove-form" }))
+                {
+                    @Html.Hidden("id")
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+                    <button type="submit" class="btn btn-primary">Да</button>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/jquery.bootgrid.min.js")
+    @Scripts.Render("~/Scripts/User/User.js")
+}
+
+
